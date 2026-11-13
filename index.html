@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>友達用ノート庫</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EJF59NRW8G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EJF59NRW8G');
+</script>
+<style>
+:root{
+--bg:#f5f5f7;
+--surface:#ffffff;
+--fill:rgba(120,120,128,.12);
+--ink:#1d1d1f;
+--ink2:#6e6e73;
+--ink3:#86868b;
+--sep:rgba(0,0,0,.08);
+--blue:#0071e3;
+--blue-link:#0066cc;
+--blue-tint:rgba(0,113,227,.1);
+--material:rgba(245,245,247,.72);
+--shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.04);
+--ease:cubic-bezier(.32,.72,0,1);
+--r-lg:16px; --r-md:12px; --r-sm:10px;
+}
+@media (prefers-color-scheme: dark){
+:root{
+--bg:#1a1a1c;
+--surface:#2c2c2e;
+--fill:rgba(120,120,128,.24);
+--ink:#f5f5f7;
+--ink2:#a1a1a6;
+--ink3:#8e8e93;
+--sep:rgba(255,255,255,.1);
+--blue:#2997ff;
+--blue-link:#2997ff;
+--blue-tint:rgba(41,151,255,.16);
+--material:rgba(26,26,28,.72);
+--shadow:0 1px 2px rgba(0,0,0,.25),0 4px 16px rgba(0,0,0,.2);
+}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+background:var(--bg);color:var(--ink);
+font-size:16px;line-height:1.7;letter-spacing:0;
+-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:var(--blue-link)}
+button,input,select,textarea{font:inherit;min-height:44px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:880px;margin:0 auto;padding:0 1.5rem 4rem}
+
+/* ---------- Sticky material header ---------- */
+.bar{
+position:sticky;top:0;z-index:20;
+background:var(--material);
+-webkit-backdrop-filter:blur(20px) saturate(180%);
+backdrop-filter:blur(20px) saturate(180%);
+}
+.bar::after{
+content:"";position:absolute;left:0;right:0;top:100%;height:14px;pointer-events:none;
+background:linear-gradient(to bottom,var(--material),transparent);
+}
+.bar-in{
+max-width:880px;margin:0 auto;padding:.625rem 1.5rem;
+display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+}
+.bar-name{font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+.bar-tag{font-size:12.5px;color:var(--ink2);font-weight:500;white-space:nowrap}
+
+/* ---------- Hero ---------- */
+.hero{padding:2.5rem 0 0}
+h1{
+font-size:clamp(28px,5vw,40px);font-weight:700;
+line-height:1.28;letter-spacing:-.015em;
+margin:0 0 1rem;color:var(--ink);
+}
+.lead{color:var(--ink2);font-size:16px;line-height:1.75;max-width:600px;margin:0}
+.spec{
+margin:2rem 0 0;background:var(--surface);border-radius:var(--r-lg);
+box-shadow:var(--shadow);overflow:hidden;
+}
+.spec-row{
+display:flex;align-items:center;gap:.875rem;
+padding:.875rem 1.125rem;position:relative;
+}
+.spec-row + .spec-row::before{
+content:"";position:absolute;top:0;left:3.4rem;right:0;height:1px;background:var(--sep);
+}
+.spec-row svg{flex-shrink:0;color:var(--blue)}
+.spec-label{color:var(--ink2);font-size:14.5px}
+.spec-value{margin-left:auto;font-weight:600;font-size:14.5px;color:var(--ink);text-align:right}
+
+/* ---------- Sections ---------- */
+section{margin-top:3.5rem}
+.sec-head{margin-bottom:1.25rem}
+.sec-head h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.35}
+.sec-head p{margin:.25rem 0 0;color:var(--ink2);font-size:14px}
+
+/* ---------- Library ---------- */
+.toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+.search{flex:1;min-width:220px;position:relative}
+.search input{
+width:100%;padding:.625rem .75rem .625rem 2.375rem;
+border:none;border-radius:var(--r-sm);
+background:var(--fill);color:var(--ink);
+transition:background .25s var(--ease),box-shadow .25s var(--ease);
+}
+.search input::placeholder{color:var(--ink3)}
+.search input:focus{outline:none;box-shadow:0 0 0 3.5px var(--blue-tint);background:var(--surface)}
+.search svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--ink3);pointer-events:none}
+.toolbar select{
+padding:.625rem .75rem;border:1px solid var(--sep);border-radius:var(--r-sm);
+background:var(--surface);color:var(--ink);cursor:pointer;
+box-shadow:var(--shadow);
+transition:transform .12s ease-out,background .25s var(--ease);
+}
+.toolbar select:active{transform:scale(.97)}
+.stats{
+display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.25rem;
+color:var(--ink2);font-size:13.5px;
+}
+.stats b{color:var(--ink);font-weight:700;font-size:15px}
+.empty{margin-top:1rem;padding:3rem 1.5rem;text-align:center}
+.empty svg{color:var(--ink3);margin-bottom:1rem}
+.empty h3{margin:0 0 .375rem;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.empty p{margin:0 auto;color:var(--ink2);font-size:14px;max-width:440px}
+#noteList{margin-top:1rem;display:flex;flex-direction:column;gap:.625rem}
+.note-card{
+display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+padding:1rem 1.125rem;background:var(--surface);border-radius:var(--r-md);
+box-shadow:var(--shadow);
+animation:cardIn .45s var(--ease) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.note-card h4{margin:0 0 2px;font-size:15.5px;font-weight:600;letter-spacing:-.005em;line-height:1.45}
+.note-card p{margin:0;color:var(--ink2);font-size:13px}
+.badge{
+flex-shrink:0;font-size:11.5px;font-weight:600;color:var(--blue);
+background:var(--blue-tint);border-radius:999px;padding:3px 10px;letter-spacing:.02em;
+}
+.hidden{display:none!important}
+
+footer{
+margin-top:4rem;padding-top:1.25rem;border-top:1px solid var(--sep);
+color:var(--ink3);font-size:12.5px;
+display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+
+/* ---------- Reduced motion / transparency / contrast ---------- */
+@media (prefers-reduced-motion: reduce){
+html{scroll-behavior:auto}
+.note-card{animation:fadeIn .2s ease both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.toolbar select{transition:background .2s ease}
+.toolbar select:active{transform:none}
+.search input{transition:none}
+}
+@media (prefers-reduced-transparency: reduce){
+.bar{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+.bar::after{display:none}
+}
+@media (prefers-contrast: more){
+.bar{border-bottom:1px solid var(--ink2)}
+.bar::after{display:none}
+.note-card,.toolbar select{border:1px solid var(--ink2)}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+<div class="bar-in">
+<span class="bar-name">友達用ノート庫</span>
+<span class="bar-tag">友達用 ・ 簡易版</span>
+</div>
+</header>
+
+<div class="wrap">
+
+<div class="hero">
+<h1>講義ノートを、ためて、探せる<br>みんなの置き場。</h1>
+<p class="lead">科目ごとに整理した講義ノートを、検索して探せるシンプルなノート庫です。録音は Google Drive に置き、ノートは管理者がここに並べていきます。</p>
+
+<div class="spec">
+<div class="spec-row">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>
+<span class="spec-label">録音の置き場</span>
+<span class="spec-value">Google Drive</span>
+</div>
+<div class="spec-row">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7A1.5 1.5 0 0 1 5 5.5h5l2 2.5h7A1.5 1.5 0 0 1 20.5 9.5v8A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5V7Z"/></svg>
+<span class="spec-label">整理</span>
+<span class="spec-value">学年 ＞ 学期 ＞ 科目 ＞ 回次</span>
+</div>
+</div>
+</div>
+
+<!-- Library -->
+<section id="library">
+<div class="sec-head"><h2>ノートを探す</h2><p>科目名・キーワードで検索できます</p></div>
+<div class="toolbar">
+<div class="search">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<input id="searchInput" type="search" placeholder="科目名、回次、キーワードで探す…" aria-label="ノートを検索">
+</div>
+<select id="termFilter" aria-label="学期で絞り込む">
+<option value="">すべての学期</option>
+<option>前期</option><option>後期</option><option>通年</option>
+</select>
+<select id="statusFilter" aria-label="状態で絞り込む">
+<option value="">すべての状態</option>
+<option>公開中</option><option>下書き</option>
+</select>
+</div>
+<div class="stats">
+<span>登録ノート <b id="statTotal">0</b> 件</span>
+<span>科目 <b id="statSubjects">0</b></span>
+<span>状態：<b>運用開始前（最初の1件待ち）</b></span>
+</div>
+
+<div id="emptyState" class="empty">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+<h3>まだノートはありません</h3>
+<p>最初のノートが登録されると、ここに科目ごとに並びます。検索や絞り込みは、ノートが増えてから効いてきます。</p>
+</div>
+<div id="noteList" aria-live="polite"></div>
+<div id="noResult" class="empty hidden">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<h3>見つかりませんでした</h3>
+<p>検索ワードや絞り込みを変えて、もう一度試してみてください。</p>
+</div>
+
+</section>
+
+<footer>
+<span>友達用ノート庫 — 簡易版</span>
+<span>録音：Google Drive</span>
+<span>整理：学年 ＞ 学期 ＞ 科目 ＞ 回次</span>
+</footer>
+</div>
+
+<script>
+(function(){
+// ノートの登録は管理者がこのファイルの notes 配列を編集して行う。
+// 例：{subject:'経済学入門', teacher:'山田 太郎', session:'3', date:'2026-11-13', term:'後期', status:'公開中'}
+var notes = [];
+var $ = function(id){ return document.getElementById(id);};
+
+function render(){
+var q = $('searchInput').value.trim().toLowerCase();
+var term = $('termFilter').value;
+var st = $('statusFilter').value;
+var list = $('noteList'); list.innerHTML = '';
+var filtered = notes.filter(function(n){
+var hay = (n.subject+' '+n.session+' '+n.date+' '+n.term+' '+(n.teacher||'')).toLowerCase();
+if(q && hay.indexOf(q)===-1) return false;
+if(term && n.term!==term) return false;
+if(st && n.status!==st) return false;
+return true;
+});
+filtered.forEach(function(n, i){
+var div = document.createElement('div'); div.className='note-card';
+div.style.animationDelay = Math.min(i*45, 225) + 'ms';
+div.innerHTML = '<div><h4></h4><p></p></div><span class="badge"></span>';
+div.querySelector('h4').textContent = n.subject + '　第' + n.session + '回';
+div.querySelector('p').textContent = n.term + ' ・ ' + n.date + (n.teacher? ' ・ ' + n.teacher: '');
+div.querySelector('.badge').textContent = n.status;
+list.appendChild(div);
+});
+$('statTotal').textContent = notes.length;
+var subs = {}; notes.forEach(function(n){ subs[n.subject]=1;});
+$('statSubjects').textContent = Object.keys(subs).length;
+$('emptyState').classList.toggle('hidden', notes.length>0);
+$('noResult').classList.toggle('hidden',!(notes.length>0 && filtered.length===0));
+}
+['searchInput','termFilter','statusFilter'].forEach(function(id){
+$(id).addEventListener('input', render); $(id).addEventListener('change', render);
+});
+render();
+})();
+</script>
+</body>
+</html>
